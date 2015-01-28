@@ -35,5 +35,35 @@ func main() {
 	fmt.Println(string(strB))
 	
 	//here are some for slices and maps which encode to json arrays
+	slcD := []string{"apple", "peach", "pear"}
+	slcB, _ := json.Marshal(sclD)
+	fmt.Println(string(slcB))
+	
+	//the json package can encode your custom data types
+	//it will only include exported fields in the encoded output
+	//by default will use those names as json keys
+	res1D := &Response1{
+		page: 1,
+		Fruits: []string{"apple", "peach", "pear"}
+	}
+	res1B, _ := json.Marshal(res1D)
+	
+	res2D := &Response2{
+		Page: 1,
+		Fruits: []string{"apple", "peach", "pear"}
+	}
+	res2B, _ := json.Marshal(res2D)
+	fmt.Println(string(res2B))
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
