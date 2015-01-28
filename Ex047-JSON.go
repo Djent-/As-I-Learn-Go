@@ -55,6 +55,26 @@ func main() {
 	res2B, _ := json.Marshal(res2D)
 	fmt.Println(string(res2B))
 	
+	//decoding JSON data into Go values
+	//example for a generic data structure
+	byt := []byte(`{"num":6.13,"strs":["a","b"]}`)
+	
+	//we need to provide a variable where the JSON package can put the
+	//encoded data. this will hold a map of strings to arbitrary data types
+	var dat map[string]interface{}
+	
+	//the actual decoding and error checking
+	if err := json.Unmarshal(byt, &dat); err != nil {
+		panic(err)
+	}
+	fmt.Println(dat)
+	
+	//in order to use the values in the decoded map, we'll need to cast them
+	//to their appropriate type. here we cast num to float64
+	num := dat["num"].(float64)
+	fmt.Println(num)
+	
+	
 	
 	
 	
