@@ -19,20 +19,20 @@ func check(e error) {
 }
 
 func main() {
-	dat, err := ioutil.ReadFile("/tmp/dat")
+	dat, err := ioutil.ReadFile("Ex001-hello.go")
 	check(err)
 	fmt.Print(string(dat))
 	
-	f, err := os.Open("/tmp/dat")
+	f, err := os.Open("Ex001-hello.go")
 	check(err)
 	
 	b1 := make([]byte, 5)
 	n1, err := f.Read(b1)
 	check(err)
-	fmt.Printf("%d bytes: %s\n", n1m string(b1))
+	fmt.Printf("%d bytes: %s\n", n1, string(b1))
 	
 	//seek to a known location in a file and Read from there
-	os, err := f.Seek(6, 0)
+	o2, err := f.Seek(6, 0)
 	check(err)
 	b2 := make([]byte, 2)
 	n2, err := f.Read(b2)
@@ -52,5 +52,13 @@ func main() {
 	_, err = f.Seek(0, 0)
 	check(err)
 	
+	//the bufio package implements a buffered reader that may be useful
+	//for both its efficieny with many small reads and because of the
+	//additional reading methods it provides
+	r4 := bufio.NewReader(f)
+	b4, err := r4.Peek(5)
+	check(err)
+	fmt.Printf("5 bytes: %s\n", string(b4))
 	
+	f.Close()
 }
