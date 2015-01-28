@@ -36,22 +36,25 @@ func main() {
 	
 	//here are some for slices and maps which encode to json arrays
 	slcD := []string{"apple", "peach", "pear"}
-	slcB, _ := json.Marshal(sclD)
+	slcB, _ := json.Marshal(slcD)
 	fmt.Println(string(slcB))
+	
+	mapD := map[string]int{"apple": 5, "lettuce": 7}
+	mapB, _ := json.Marshal(mapD)
+	fmt.Println(string(mapB))
 	
 	//the json package can encode your custom data types
 	//it will only include exported fields in the encoded output
 	//by default will use those names as json keys
 	res1D := &Response1{
-		page: 1,
-		Fruits: []string{"apple", "peach", "pear"}
-	}
+		Page: 1,
+		Fruits: []string{"apple", "peach", "pear"}}
 	res1B, _ := json.Marshal(res1D)
+	fmt.Println(string(res1B))
 	
 	res2D := &Response2{
 		Page: 1,
-		Fruits: []string{"apple", "peach", "pear"}
-	}
+		Fruits: []string{"apple", "peach", "pear"}}
 	res2B, _ := json.Marshal(res2D)
 	fmt.Println(string(res2B))
 	
@@ -74,16 +77,23 @@ func main() {
 	num := dat["num"].(float64)
 	fmt.Println(num)
 	
+	//accessing nested data requires a series of casts
+	strs := dat["strs"].([]interface{})
+	str1 := strs[0].(string)
+	fmt.Println(str1)
 	
+	//decode JSON into custom data types
+	//advantage: type safety and eliminating the need to type assertions
+	str := `{"page": 1, "fruits": ["apple", "peach"]}`
+	res := &Response2{}
+	json.Unmarshal([]byte(str), &res)
+	fmt.Println(res)
+	fmt.Println(res.Fruits[0])
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//we have used bytes and strings as intermediates between data and json
+	//we can also stream JSON encodings directly to os.Writers like
+	//os.Stdout or even HTTP response bodies
+	enc := json.NewEncoder(os.Stdout)
+	d:= map[string]int{"apple": 5, "lettuce": 7}
+	enc.Encode(d)
 }
