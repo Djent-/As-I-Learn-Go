@@ -10,9 +10,9 @@ import (
 )
 
 func sayhelloName(w http.ResponseWriter, r *http.Request) {
-	r.ParseFold() // parse arguments
+	r.ParseForm() // parse arguments
 	fmt.Println(r.Form) // print form information to stdout
-	fmt.Prinln("path:", r.URL.Path)
+	fmt.Println("path:", r.URL.Path)
 	fmt.Println("scheme:", r.URL.Scheme)
 	fmt.Println(r.Form["url_long"])
 	for k, v := range r.Form {
